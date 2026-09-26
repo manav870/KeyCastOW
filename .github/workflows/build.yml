@@ -17,7 +17,7 @@ jobs:
       - name: Build KeyCastOW
         shell: cmd
         run: |
-          msbuild keycastow.vcxproj /p:Configuration=Release /p:Platform=Win32
+          msbuild keycastow.vcxproj /p:Configuration=Release /p:Platform=Win32 /p:PlatformToolset=v143
 
       - name: Find EXE
         shell: powershell
