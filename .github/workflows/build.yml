@@ -5,19 +5,27 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: windows-2022
 
     steps:
-      - name: Download source
+      - name: Checkout source
         uses: actions/checkout@v4
 
-      - name: Build
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Build KeyCastOW
         shell: cmd
         run: |
-          msbuild keycastow.vcxproj /p:Platform=Win32 /p:Configuration=Release
+          msbuild keycastow.vcxproj /p:Configuration=Release /p:Platform=Win32
+
+      - name: Find EXE
+        shell: powershell
+        run: |
+          Get-ChildItem -Path . -Recurse -Filter keycastow.exe
 
       - name: Upload EXE
         uses: actions/upload-artifact@v4
         with:
           name: KeyCastOW
-          path: Release/keycastow.exe
+          path: '**/keycastow.exe'
